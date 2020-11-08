@@ -2,12 +2,14 @@ import java.util.Arrays;
 
 public class Pizza {
   // Things Pizzas Have
+  // Access Modifiers
   private String name;
   private char size;
   private String[] toppings;
   private int slices;
   static int pizzasMade;
 
+  // Constructor
   public Pizza(String name, char size, String[] toppings, int slices) {
     this.name = name;
     this.size = size;
@@ -26,6 +28,10 @@ public class Pizza {
     this.name = name;
   }
 
+  // The point of having private properties and using public getters and setters
+  // to access them is being able to add an extra layer of security to what the
+  // user is allowed to do. Here we would deny a user from being able to set the
+  // sauce to blank. Essentially making it a required field.
   public void setSlices(int slices) {
     if (slices < 3) {
       System.err.println("We don't do small pizzas");
@@ -55,15 +61,15 @@ public class Pizza {
     return this.slices;
   }
 
-  // Things You Can Do
-  // Eat Method
-  // Advertise
-
+  // Things we can do with the pizza
   public int eatSlice(int slicesToEat) {
     this.slices -= slicesToEat;
     return this.slices;
   }
 
+  // Example on how an object can interact with another object. By importing
+  // "otherPizza" into here, we now have access to all the otherObject's
+  // attributes and can modify them as we please
   public void pizzaFight(Pizza otherPizza) {
 
     int beginningSlices = otherPizza.getSlices();
