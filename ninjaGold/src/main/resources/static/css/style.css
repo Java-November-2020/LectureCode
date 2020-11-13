@@ -1,0 +1,20 @@
+@charset "ISO-8859-1";
+
+body {
+	background-color: silver;
+}
+
+.structure {
+	padding: 10px;
+	display: inline-block;
+	border: 2px solid black;
+	text-align: center;
+}
+
+.green {
+	color: green;
+}
+
+.red {
+	color: red;
+}
