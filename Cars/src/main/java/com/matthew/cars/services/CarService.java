@@ -40,4 +40,10 @@ public class CarService {
 	public Car updateCar(Car car) {
 		return this.cRepo.save(car);
 	}
+	
+	// Create Object With Parameters
+	public Car createCarOldway(String make, String model, String color, int year, String transmission) {
+		Car newCar = new Car(make, model, color, year, transmission);
+		return this.cRepo.save(newCar);
+	}
 }

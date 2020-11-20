@@ -1,48 +1,65 @@
 package com.matthew.cars.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.matthew.cars.models.Car;
 import com.matthew.cars.services.CarService;
 
-@RestController
+@Controller
 public class CarController {
+	@Autowired
 	private CarService cService;
 	
-	public CarController(CarService service) {
-		this.cService = service;
+//	@RequestMapping("/", method=RequestMethod.GET)
+//	@RequestMapping("/")
+	@GetMapping("/")
+	public String index(Model viewModel) {
+		List<Car> allCars= this.cService.getAllCars();
+		viewModel.addAttribute("allCars", allCars);
+		return "index.jsp";
 	}
 	
-	// Routes
-	@RequestMapping("/")
-	public List<Car> index(){
-		return this.cService.getAllCars();
+	@GetMapping("/add")
+	public String addCar(@ModelAttribute("car") Car car) {
+		return "add.jsp";
 	}
 	
-	@RequestMapping("/{id}")
-	public Car getCar(@PathVariable("id") Long id) {
-		return this.cService.getSingleCar(id);
+	@PostMapping("/add")
+	public String addC(@Valid @ModelAttribute("car") Car car, BindingResult result) {
+		if(result.hasErrors()) {
+			return "add.jsp";
+		}
+		this.cService.createCar(car);
+		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/", method=RequestMethod.POST)
-	public Car create(Car car) {
-		return this.cService.createCar(car);
-	}
-	
-	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
-	public void deleteCar(@PathVariable("id") Long id) {
-		this.cService.deleteCar(id);
-	}
-	
-	@RequestMapping(value="/update/{id}", method=RequestMethod.PUT)
-	public Car edit(@PathVariable("id") Long id, Car updatedCar) {
-		return this.cService.updateCar(updatedCar);
+	@PostMapping("/addOldWay")
+	public String addCarToDB(@RequestParam("make") String make, @RequestParam("model") String model, @RequestParam("color") String color, @RequestParam("year") int year, @RequestParam("transmission") String transmission, RedirectAttributes redirectAttr ) {
+		ArrayList<String> errors = new ArrayList<String>();
+		if(make.equals("")) {
+			errors.add("Hey there, you forgot to add a make!");
+		}
+		if(errors.size() > 0) {
+			for(String e : errors) {
+				redirectAttr.addFlashAttribute("errors", e);
+			}
+			return "redirect:/add";
+		}
+		this.cService.createCarOldway(make, model, color, year, transmission);
+		return "redirect:/";
 	}
 	
 }
