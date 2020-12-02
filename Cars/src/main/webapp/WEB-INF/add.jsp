@@ -44,7 +44,7 @@
 	<form:errors path="transmission"/>
 	<form:input path="transmission"/></form:label>
 </div>
-<button>Create New Car</button>
+<button class="btn btn-dark">Create New Car</button>
 
 </form:form>
 <hr>
@@ -72,7 +72,7 @@
 		<input type="text" name="transmission">
 	</div>
 	
-<button>Add Car</button>
+<button class="btn btn-dark">Add Car</button>
 </form>
 
 

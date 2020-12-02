@@ -12,7 +12,9 @@
 <body>
 <div class="container">
 <h1>Welcome to Cars dot Com</h1>
-
+<hr>
+<a href="/add" class="btn btn-danger">Add New Car</a>
+<hr>
 <h3>Showing All Cars</h3>
 <table class="table table-dark">
 <thead>
@@ -23,6 +25,7 @@
 <th>Color</th>
 <th>Years</th>
 <th>Transmission</th>
+<th>Registered</th>
 </tr>
 </thead>
 <tbody>
@@ -31,10 +34,20 @@
 <tr>
 	<td>${car.id}</td>
 	<td>${car.make}</td>
-	<td>${car.model}</td>
+	<td><a href="${car.id}">${car.model}</a></td>
 	<td>${car.color}</td>
 	<td>${car.year}</td>
 	<td>${car.transmission}</td>
+	<td>
+	<c:choose>
+	<c:when test="${car.title != null}">
+	Yes
+	</c:when>
+	<c:otherwise>
+	No
+	</c:otherwise>
+	</c:choose>
+	</td>
 </tr>
 </c:forEach>
 

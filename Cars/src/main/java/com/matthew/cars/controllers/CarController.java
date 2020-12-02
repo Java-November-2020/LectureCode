@@ -11,17 +11,22 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.matthew.cars.models.Car;
+import com.matthew.cars.models.Title;
 import com.matthew.cars.services.CarService;
+import com.matthew.cars.services.TitleService;
 
 @Controller
 public class CarController {
 	@Autowired
 	private CarService cService;
+	@Autowired
+	private TitleService tService;
 	
 //	@RequestMapping("/", method=RequestMethod.GET)
 //	@RequestMapping("/")
@@ -60,6 +65,24 @@ public class CarController {
 		}
 		this.cService.createCarOldway(make, model, color, year, transmission);
 		return "redirect:/";
+	}
+	
+	@GetMapping("/{id}")
+	public String updateCar(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("title") Title title) {
+		viewModel.addAttribute("car", cService.getSingleCar(id));
+		return "show.jsp";
+	}
+	
+	@PostMapping("/addTitle")
+	public String addTitle(@Valid @ModelAttribute("title") Title title, BindingResult result, Model viewModel) {
+		Long carId = title.getCar().getId();
+		if(result.hasErrors()) {
+			viewModel.addAttribute("car", cService.getSingleCar(carId));
+			return "show.jsp";
+		} else {
+			this.tService.create(title);
+			return "redirect:/" + carId;
+		}
 	}
 	
 }
