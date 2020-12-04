@@ -68,7 +68,7 @@ public class CarController {
 	}
 	
 	@GetMapping("/{id}")
-	public String updateCar(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("title") Title title) {
+	public String updateCar(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("title") Title title, @ModelAttribute("car") Car car) {
 		viewModel.addAttribute("car", cService.getSingleCar(id));
 		return "show.jsp";
 	}
@@ -84,5 +84,26 @@ public class CarController {
 			return "redirect:/" + carId;
 		}
 	}
+	
+	@GetMapping("/delete/{id}")
+	public String deleteCar(@PathVariable("id") Long id) {
+		this.cService.deleteCar(id);
+		return "redirect:/";
+	}
+	
+	// Process Editing Car Details
+	@PostMapping("/edit/{id}")
+	public String editCar(@Valid @ModelAttribute("car") Car car, BindingResult result, @PathVariable("id") Long id, Model viewModel, @ModelAttribute("title") Title title) {
+		Long carId = car.getId();
+		if(result.hasErrors()) {			
+			System.out.println(result);
+			viewModel.addAttribute("car", cService.getSingleCar(carId));
+			return "show.jsp";
+		}
+		this.cService.updateCar(car);
+		return "redirect:/" + carId;
+	}
+	
+	
 	
 }

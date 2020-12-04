@@ -6,27 +6,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="titles")
-public class Title {
+@Table(name="accessories")
+public class Accessory {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private String vin;
-	private String city;
-	private String state;
+	private String name;
+	private Double price;
+	private String description;
 	
-	// Relationship One to One
-	@OneToOne(fetch=FetchType.LAZY)
+	
+	// Many To One Relationship
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="car_id")
 	private Car car;
-
-	//Relationship Many to One
 	
-	public Title() {
+	public Accessory() {
+
 	}
 
 	public Long getId() {
@@ -37,28 +37,28 @@ public class Title {
 		this.id = id;
 	}
 
-	public String getVin() {
-		return vin;
+	public String getName() {
+		return name;
 	}
 
-	public void setVin(String vin) {
-		this.vin = vin;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getCity() {
-		return city;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
-	public String getState() {
-		return state;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Car getCar() {
@@ -68,6 +68,8 @@ public class Title {
 	public void setCar(Car car) {
 		this.car = car;
 	}
+	
+	
 	
 	
 }

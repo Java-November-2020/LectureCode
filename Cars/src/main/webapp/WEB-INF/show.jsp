@@ -15,8 +15,23 @@
 <div class="container">
 <h1>Details for ${car.model}</h1>
 <hr>
-<p>${car.make}</p>
-<p>${car.year}</p>
+<p>Make: ${car.make}</p>
+<p>Year: ${car.year}</p>
+<p>Color: ${car.color}</p>
+<p>Transmission: ${car.transmission}</p>
+<hr>
+<h2>After Market Accessories</h2>
+<ol>
+<c:forEach items="${car.accessories}" var="acc">
+<li>Name: ${acc.name}</li>
+<ul>
+<li>Description: ${acc.description}</li>
+<li>Price: ${acc.price }</li>
+</ul>
+</c:forEach>
+</ol>
+<hr>
+<h2>Register This Car</h2>
 <c:choose>
 <c:when test="${car.title != null}">
 <p>Vin Number: ${car.title.vin}</p>
@@ -47,6 +62,40 @@
 </form:form>
 </c:otherwise>
 </c:choose>
+<hr>
+<h3>Edit Car</h3>
+<form:form method="POST" action="/edit/${car.id}" modelAttribute="car">
+<div class="form-group">
+	<form:label path="make">Make:
+	<form:errors path="make"/>
+	<form:input path="make"/></form:label>
+</div>
+<div class="form-group">
+	<form:label path="model">Model:
+	<form:errors path="model"/>
+	<form:input path="model"/></form:label>
+</div>
+<div class="form-group">
+	<form:label path="color">Color:
+	<form:errors path="color"/>
+	<form:input path="color"/></form:label>
+</div>
+<div class="form-group">
+	<form:label path="year">Year:
+	<form:errors path="year"/>
+	<form:input path="year"/></form:label>
+</div>
+<div class="form-group">
+	<form:label path="transmission">Transmission:
+	<form:errors path="transmission"/>
+	<form:input path="transmission"/></form:label>
+</div>
+<button class="btn btn-dark">Save Changes</button>
+
+</form:form>
+
+
+<a href="/delete/${car.id}" class="btn btn-danger">Delete This Car</a>
 </div>
 </body>
 </html>

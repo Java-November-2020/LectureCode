@@ -13,7 +13,7 @@
 <div class="container">
 <h1>Welcome to Cars dot Com</h1>
 <hr>
-<a href="/add" class="btn btn-danger">Add New Car</a>
+<a href="/add" class="btn btn-primary">Add New Car</a><a href="/accessory/new" class="btn btn-primary">Add New Accessory</a>
 <hr>
 <h3>Showing All Cars</h3>
 <table class="table table-dark">
