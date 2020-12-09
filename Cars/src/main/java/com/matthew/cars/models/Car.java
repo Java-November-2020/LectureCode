@@ -10,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -47,6 +50,14 @@ public class Car {
 	//Relationship One to Many
 	@OneToMany(mappedBy="car", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Accessory> accessories;
+	
+	@ManyToMany
+	@JoinTable(
+			name="likes",
+			joinColumns = @JoinColumn(name="car_id"),
+			inverseJoinColumns = @JoinColumn(name="user_id")
+			)
+	private List<User> likers;
 	
 	@Column(updatable=false)
 	@DateTimeFormat(pattern = "MM-dd-YYYY HH:mm:ss")
@@ -158,6 +169,14 @@ public class Car {
 
 	public void setAccessories(List<Accessory> accessories) {
 		this.accessories = accessories;
+	}
+
+	public List<User> getLikers() {
+		return likers;
+	}
+
+	public void setLikers(List<User> likers) {
+		this.likers = likers;
 	}
 
 

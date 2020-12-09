@@ -14,6 +14,13 @@
 <body>
 <div class="container">
 <h1>Details for ${car.model}</h1>
+<h3>Number of Likes: ${car.likers.size()}</h3>
+<h3>Liked By:</h3>
+<ol>
+<c:forEach items="${car.likers}" var="user">
+<li>${user.firstName} ${user.lastName}</li>
+</c:forEach>
+</ol>
 <hr>
 <p>Make: ${car.make}</p>
 <p>Year: ${car.year}</p>

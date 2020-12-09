@@ -29,6 +29,7 @@ public class Title {
 	public Title() {
 	}
 
+
 	public Long getId() {
 		return id;
 	}

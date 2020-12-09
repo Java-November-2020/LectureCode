@@ -13,6 +13,7 @@
 <div class="container">
 <h1>Welcome to Cars dot Com</h1>
 <hr>
+Welcome ${user.firstName}
 <a href="/add" class="btn btn-primary">Add New Car</a><a href="/accessory/new" class="btn btn-primary">Add New Accessory</a>
 <hr>
 <h3>Showing All Cars</h3>
@@ -26,6 +27,7 @@
 <th>Years</th>
 <th>Transmission</th>
 <th>Registered</th>
+<th>Action</th>
 </tr>
 </thead>
 <tbody>
@@ -34,7 +36,7 @@
 <tr>
 	<td>${car.id}</td>
 	<td>${car.make}</td>
-	<td><a href="${car.id}">${car.model}</a></td>
+	<td><a href="/cars/${car.id}">${car.model}</a></td>
 	<td>${car.color}</td>
 	<td>${car.year}</td>
 	<td>${car.transmission}</td>
@@ -45,6 +47,16 @@
 	</c:when>
 	<c:otherwise>
 	No
+	</c:otherwise>
+	</c:choose>
+	</td>
+	<td>
+	<c:choose>
+	<c:when test="${car.likers.contains(user)}">
+	<a href="/cars/unlike/${car.id}">Un-Like</a>
+	</c:when>
+	<c:otherwise>
+	<a href="/cars/like/${car.id}">Like</a>
 	</c:otherwise>
 	</c:choose>
 	</td>
