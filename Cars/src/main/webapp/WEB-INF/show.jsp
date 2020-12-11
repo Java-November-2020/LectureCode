@@ -14,6 +14,7 @@
 <body>
 <div class="container">
 <h1>Details for ${car.model}</h1>
+<h2>Owner <a href="/cars/user/${car.owner.id}">${car.owner.firstName} ${car.owner.lastName }</a></h2>
 <h3>Number of Likes: ${car.likers.size()}</h3>
 <h3>Liked By:</h3>
 <ol>
@@ -22,6 +23,48 @@
 </c:forEach>
 </ol>
 <hr>
+<h3>Users Who Rated The Car</h3>
+<table class="table">
+<thead>
+<tr><th>Name</th><th>Rating</th>
+</tr>
+</thead>
+<tbody>
+<h4>Rating</h4>
+<c:set var="found" value="false"/>
+<c:forEach items="${car.ratings}" var="rating">
+<c:if test="${rating.user.id == userId }">
+<c:set var="found" value="true"/>
+You Rated this Item <c:out value="${rating.rating}"/>
+</c:if>
+</c:forEach>
+<c:if test="${found == false}">
+<h4>Add a Rating</h4>
+<form method="POST" action="/cars/rate/${car.id}">
+<select name="rating">
+<option>10</option>
+<option>9</option>
+<option>8</option>
+<option>7</option>
+<option>6</option>
+<option>5</option>
+<option>4</option>
+<option>3</option>
+<option>2</option>
+<option>1</option>
+</select>
+<button>Rate!</button>
+</form>
+</c:if>
+<c:forEach items="${car.ratings}" var="rating">
+<tr>
+<td><c:out value="${rating.user.firstName}"/></td>
+<td><c:out value="${rating.rating}"/>
+</tr>
+</c:forEach>
+</tbody>
+
+</table>
 <p>Make: ${car.make}</p>
 <p>Year: ${car.year}</p>
 <p>Color: ${car.color}</p>
@@ -70,6 +113,7 @@
 </c:otherwise>
 </c:choose>
 <hr>
+<c:if test="${car.owner.id == userId }">
 <h3>Edit Car</h3>
 <form:form method="POST" action="/edit/${car.id}" modelAttribute="car">
 <div class="form-group">
@@ -103,6 +147,8 @@
 
 
 <a href="/delete/${car.id}" class="btn btn-danger">Delete This Car</a>
+</div>
+</c:if>
 </div>
 </body>
 </html>

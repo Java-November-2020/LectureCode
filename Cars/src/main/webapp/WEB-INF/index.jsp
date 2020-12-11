@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,10 +12,12 @@
 </head>
 <body>
 <div class="container">
+
+
 <h1>Welcome to Cars dot Com</h1>
 <hr>
 Welcome ${user.firstName}
-<a href="/add" class="btn btn-primary">Add New Car</a><a href="/accessory/new" class="btn btn-primary">Add New Accessory</a>
+<a href="/cars/add" class="btn btn-primary">Add New Car</a><a href="/accessory/new" class="btn btn-primary">Add New Accessory</a>
 <hr>
 <h3>Showing All Cars</h3>
 <table class="table table-dark">
@@ -28,6 +31,7 @@ Welcome ${user.firstName}
 <th>Transmission</th>
 <th>Registered</th>
 <th>Action</th>
+<th>Rate</th>
 </tr>
 </thead>
 <tbody>
@@ -59,6 +63,18 @@ Welcome ${user.firstName}
 	<a href="/cars/like/${car.id}">Like</a>
 	</c:otherwise>
 	</c:choose>
+	</td>
+	<td>
+	<c:set var="avg" value="${0}"/>
+	<c:forEach items="${car.ratings}" var="rating">
+	<c:if test="${car.ratings.size() != 0}">
+	<c:set var="avg" value="${avg + rating.rating }"/>
+	</c:if>
+	</c:forEach>
+	<c:if test="${avg > 0 }">
+	<c:set var="avg" value="${avg / car.ratings.size()}"/>
+	</c:if>
+	<c:out value="${avg}"/>
 	</td>
 </tr>
 </c:forEach>

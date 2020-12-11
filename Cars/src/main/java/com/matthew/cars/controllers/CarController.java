@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.matthew.cars.models.Car;
+import com.matthew.cars.models.Rating;
 import com.matthew.cars.models.Title;
 import com.matthew.cars.models.User;
 import com.matthew.cars.services.CarService;
+import com.matthew.cars.services.RatingService;
 import com.matthew.cars.services.TitleService;
 import com.matthew.cars.services.UserService;
 
@@ -34,11 +36,13 @@ public class CarController {
 	private TitleService tService;
 	@Autowired
 	private UserService uService;
+	@Autowired
+	private RatingService rService;
 	
 //	@RequestMapping("/", method=RequestMethod.GET)
 //	@RequestMapping("/")
 	@GetMapping("")
-	public String index(Model viewModel, HttpSession session) {
+	public String index(Model viewModel, HttpSession session, @ModelAttribute("rating") Rating rating) {
 		if(session.getAttribute("user_id").equals(null)) {
 			return "redirect:/";
 		}
@@ -49,16 +53,33 @@ public class CarController {
 		return "index.jsp";
 	}
 	
+	@PostMapping("/rate/{id}")
+	public String rateCar(@RequestParam("rating") int rating, @PathVariable("id") Long id, Model viewModel, HttpSession session) {
+		Car car = this.cService.getSingleCar(id);
+		Long user_id = (Long)session.getAttribute("user_id");
+		User user = this.uService.getSingleUser(user_id);
+		Rating newRating = new Rating();
+		newRating.setRating(rating);
+		newRating.setUser(user);
+		newRating.setCar(car);
+		this.rService.createRating(newRating);
+		return "redirect:/cars";
+		
+	}
+	
 	@GetMapping("/add")
 	public String addCar(@ModelAttribute("car") Car car) {
 		return "add.jsp";
 	}
 	
 	@PostMapping("/add")
-	public String addC(@Valid @ModelAttribute("car") Car car, BindingResult result) {
+	public String addC(@Valid @ModelAttribute("car") Car car, BindingResult result, HttpSession session) {
 		if(result.hasErrors()) {
 			return "add.jsp";
 		}
+		Long userId = (Long)session.getAttribute("user_id");
+		User owner = this.uService.getSingleUser(userId);
+		car.setOwner(owner);
 		this.cService.createCar(car);
 		return "redirect:/";
 	}
@@ -80,8 +101,9 @@ public class CarController {
 	}
 	
 	@GetMapping("/{id}")
-	public String updateCar(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("title") Title title, @ModelAttribute("car") Car car) {
+	public String updateCar(@PathVariable("id") Long id, Model viewModel, @ModelAttribute("title") Title title, @ModelAttribute("car") Car car, HttpSession session) {
 		viewModel.addAttribute("car", cService.getSingleCar(id));
+		viewModel.addAttribute("userId", (Long)session.getAttribute("user_id"));
 		return "show.jsp";
 	}
 	
@@ -134,6 +156,11 @@ public class CarController {
 		return "redirect:/cars";
 	}
 	
+	@GetMapping("/user/{id}")
+	public String profile(@PathVariable("id") Long id, Model viewModel) {
+		viewModel.addAttribute("user", this.uService.getSingleUser(id));
+		return "profile.jsp";
+	}
 	
-	
+
 }

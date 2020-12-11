@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -42,6 +43,14 @@ public class Car {
 	private int year;
 	@NotBlank 
 	private String transmission;
+	// Relationship To Ratings
+	@OneToMany(mappedBy="car", fetch=FetchType.LAZY)
+	private List<Rating> ratings;
+	
+	// Relationship One to Many
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="user_id")
+	private User owner;
 	
 	//Relationship One To One
 	@OneToOne(mappedBy="car", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
@@ -177,6 +186,22 @@ public class Car {
 
 	public void setLikers(List<User> likers) {
 		this.likers = likers;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
 	}
 
 

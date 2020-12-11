@@ -18,7 +18,7 @@
 </c:forEach>
 
 <hr>
-<form:form method="POST" action="/add" modelAttribute="car">
+<form:form method="POST" action="/cars/add" modelAttribute="car">
 <div class="form-group">
 	<form:label path="make">Make:
 	<form:errors path="make"/>

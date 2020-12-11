@@ -14,11 +14,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.matthew.cars.models.User;
 import com.matthew.cars.services.UserService;
+import com.matthew.cars.validators.UserValidator;
 
 @Controller
 public class UserController {
 	@Autowired
 	private UserService uService;
+	@Autowired
+	private UserValidator validator;
 	
 	@GetMapping("/")
 	public String index(@ModelAttribute("user") User user) {
@@ -27,6 +30,7 @@ public class UserController {
 	
 	@PostMapping("/register")
 	public String register(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session) {
+		validator.validate(user, result);
 		if(result.hasErrors()) {
 			// If there are validation errors: return back to view
 			return "landing.jsp";
