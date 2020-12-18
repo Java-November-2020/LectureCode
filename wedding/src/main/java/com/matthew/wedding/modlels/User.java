@@ -36,7 +36,7 @@ public class User {
 	@Transient
 	private String confirmPassword;
 	
-	@OneToMany(mappedBy="planner", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="plannner", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Wedding> weddings;
 	
 	@ManyToMany(fetch=FetchType.LAZY)

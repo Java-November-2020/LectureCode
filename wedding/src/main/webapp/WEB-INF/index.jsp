@@ -15,22 +15,6 @@
 <h1>Welcome To Users</h1>
   <div class="row">
     <div class="col">
-      <h4>Login</h4>
-      <p>${loginError}</p>
-      <form method="POST" action="/login">
-      <div class="form-group">
-      <label name="Email Address">Email Address:</label>
-	      <input type="text" class="form-control" name="lemail">
-	      
-	  </div>
-	  <div class="form-group">
-	  <label name="Password">Password:</label>
-	      <input type="text" class="form-control" name="lpassword">
-      </div>
-      <button class="btn btn-light">Login</button>
-      </form>
-    </div>
-    <div class="col">
       <h4>Register</h4>
 
 			<form:form action="/register" method="post" modelAttribute="user">
@@ -61,6 +45,22 @@
 			    </div>
 			    <input class="btn btn-dark" type="submit" value="Submit"/>
 			</form:form>
+    </div>
+        <div class="col">
+      <h4>Login</h4>
+      <p>${loginError}</p>
+      <form method="POST" action="/login">
+      <div class="form-group">
+      <label name="Email Address">Email Address:</label>
+	      <input type="text" class="form-control" name="lemail">
+	      
+	  </div>
+	  <div class="form-group">
+	  <label name="Password">Password:</label>
+	      <input type="text" class="form-control" name="lpassword">
+      </div>
+      <button class="btn btn-light">Login</button>
+      </form>
     </div>
   </div>
 </body>
