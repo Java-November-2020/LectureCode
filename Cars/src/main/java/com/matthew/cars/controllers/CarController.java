@@ -55,17 +55,18 @@ public class CarController {
 	
 	@PostMapping("/rate/{id}")
 	public String rateCar(@RequestParam("rating") int rating, @PathVariable("id") Long id, Model viewModel, HttpSession session) {
-		Car car = this.cService.getSingleCar(id);
-		Long user_id = (Long)session.getAttribute("user_id");
-		User user = this.uService.getSingleUser(user_id);
-		Rating newRating = new Rating();
-		newRating.setRating(rating);
-		newRating.setUser(user);
-		newRating.setCar(car);
-		this.rService.createRating(newRating);
-		return "redirect:/cars";
+			Car car = this.cService.getSingleCar(id);
+			Long user_id = (Long) session.getAttribute("user_id");
+			User user = uService.getSingleUser(user_id);
+			Rating newRating = new Rating();
+			newRating.setUser(user);
+			newRating.setCar(car);
+			newRating.setRating(rating);
+			rService.createRating(newRating);
+			return "redirect:/cars/{id}";
+		}
 		
-	}
+
 	
 	@GetMapping("/add")
 	public String addCar(@ModelAttribute("car") Car car) {

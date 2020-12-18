@@ -65,16 +65,16 @@ Welcome ${user.firstName}
 	</c:choose>
 	</td>
 	<td>
-	<c:set var="avg" value="${0}"/>
-	<c:forEach items="${car.ratings}" var="rating">
-	<c:if test="${car.ratings.size() != 0}">
-	<c:set var="avg" value="${avg + rating.rating }"/>
-	</c:if>
-	</c:forEach>
-	<c:if test="${avg > 0 }">
-	<c:set var="avg" value="${avg / car.ratings.size()}"/>
-	</c:if>
-	<c:out value="${avg}"/>
+		<c:set var="avg" value="${0}"/>
+		<c:forEach items="${car.ratings }" var="rating">
+		<c:if test="${car.ratings.size() != 0 }">
+		<c:set var="avg" value="${avg + rating.rating }"/>
+		</c:if>		
+		</c:forEach>
+		<c:if test="${avg > 0}">
+		<c:set var="avg" value="${avg / car.ratings.size()}"/>
+		</c:if>
+		<c:out value="${avg}"/>
 	</td>
 </tr>
 </c:forEach>

@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isErrorPage="true" %>    
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,7 @@
 <body>
 <div class="container">
 <h1>Details for ${car.model}</h1>
+<p>Created: <fmt:formatDate value="${car.createdAt}" pattern="MMMM dd, yyyy"/></p>
 <h2>Owner <a href="/cars/user/${car.owner.id}">${car.owner.firstName} ${car.owner.lastName }</a></h2>
 <h3>Number of Likes: ${car.likers.size()}</h3>
 <h3>Liked By:</h3>
@@ -23,6 +25,33 @@
 </c:forEach>
 </ol>
 <hr>
+<c:set var="found" value="false"/>
+<c:forEach items="${car.ratings}" var="rating">
+<c:if test="${rating.user.id == userId }">
+<c:set var="found" value="true"/>
+You Rated this car <c:out value="${rating.rating}"/>
+</c:if>
+</c:forEach>
+<c:if test ="${found == false}">
+<h3>Add A Rating</h3>
+	<form method="POST" action="/cars/rate/${car.id}" class="row align-center">
+	<div class="form-group">
+	<select name="rating">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>	
+	</select>
+        <input type="submit" value="Rate!" class="btn m-left"/>
+     </div>
+    </form>
+    </c:if>
 <h3>Users Who Rated The Car</h3>
 <table class="table">
 <thead>
@@ -30,32 +59,6 @@
 </tr>
 </thead>
 <tbody>
-<h4>Rating</h4>
-<c:set var="found" value="false"/>
-<c:forEach items="${car.ratings}" var="rating">
-<c:if test="${rating.user.id == userId }">
-<c:set var="found" value="true"/>
-You Rated this Item <c:out value="${rating.rating}"/>
-</c:if>
-</c:forEach>
-<c:if test="${found == false}">
-<h4>Add a Rating</h4>
-<form method="POST" action="/cars/rate/${car.id}">
-<select name="rating">
-<option>10</option>
-<option>9</option>
-<option>8</option>
-<option>7</option>
-<option>6</option>
-<option>5</option>
-<option>4</option>
-<option>3</option>
-<option>2</option>
-<option>1</option>
-</select>
-<button>Rate!</button>
-</form>
-</c:if>
 <c:forEach items="${car.ratings}" var="rating">
 <tr>
 <td><c:out value="${rating.user.firstName}"/></td>
