@@ -20,8 +20,6 @@ import com.matthew.cars.validators.UserValidator;
 public class UserController {
 	@Autowired
 	private UserService uService;
-	@Autowired
-	private UserValidator validator;
 	
 	@GetMapping("/")
 	public String index(@ModelAttribute("user") User user) {

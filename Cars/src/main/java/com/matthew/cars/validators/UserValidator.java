@@ -12,26 +12,22 @@ public class UserValidator {
 	@Autowired
 	private UserRepository uRepo;
 	
-	public boolean supports(Class<?> clazz) {
-		return User.class.equals(clazz);
+	public boolean supports(Class<?> class) {
+		return User.class.equals(class);
 	}
 	
-	public void validate(Object target, Errors errors) {
+	public void validate(Object target, Error error) {
 		User user = (User) target;
 		
 		// Make Sure Password and Confirm Password matches
 		if(!user.getPassword().equals(user.getConfirmPassword())) {
-			errors.rejectValue("password", "Match", "Passwords Do Not Match, person!!!!!!!!!!!");
+			error.rejectValue("password", "Match");
 		}
 		
 		// Make sure Email is Unique in the Database
 		if(this.uRepo.existsByEmail(user.getEmail())) {
-			errors.rejectValue("email", "Unique", "Hey there, that email has already been registered");
+			error.rejectValue("email", "Unique");
 		}
 		
-		// No Matts Allowed 
-		if(user.getFirstName().equals("Matthew")){
-			errors.rejectValue("firstName", "NoMattsAllowed", "Sorry, we're not accepting matts at this time");
-		}
 	}
 }

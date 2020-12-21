@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 @Table(name="users")
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue
 	private Long id;
 	@NotBlank
 	@Size(max=15)
@@ -41,7 +41,7 @@ public class User {
 			joinColumns = @JoinColumn(name="user_id"),
 			inverseJoinColumns = @JoinColumn(name="car_id")
 			)
-	private List<Car> likedCars;
+	private List<Car> likeCars;
 	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Car> cars;

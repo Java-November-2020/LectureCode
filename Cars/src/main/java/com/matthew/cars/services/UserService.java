@@ -10,8 +10,6 @@ import com.matthew.cars.repositories.UserRepository;
 
 @Service
 public class UserService {
-	@Autowired
-	private UserRepository uRepo;
 	
 	// Register A New User
 	public User registerUser(User user) {
